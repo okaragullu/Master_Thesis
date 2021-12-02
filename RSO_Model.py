@@ -1,11 +1,3 @@
-#!/usr/bin/env python
-# coding: utf-8
-
-# # Importing Libraries 
-
-# In[1]:
-
-
 from mpl_toolkits.mplot3d import Axes3D
 import matplotlib.pyplot as plt
 from matplotlib import cm
@@ -23,18 +15,12 @@ from sklearn.metrics import mean_squared_error
 from math import sqrt
 get_ipython().run_line_magic('matplotlib', 'inline')
 from smt.sampling_methods import LHS
-
-
-# In[1]:
-
-
 workdir=r'C:\Users\Orkun\Untitled Folder 1\Blue_RSO_csv'
 os.chdir(workdir)
 
 
 # # Modified Root Mean Square Error (RMSE)
 
-# In[137]:
 
 
 def find_nearest(array, value):
@@ -60,20 +46,12 @@ def rms_force(x):
 
 # ## Load Experimental Data and Find RMSE Between Exp. and Simulation Data
 
-# In[138]:
-
-
-
 df_ref = pd.read_csv(r'C:\Users\Orkun\Untitled Folder 1\Blue_Ref.csv')
 force_max_ref=np.argmax(np.array(df_ref.Load))
 df_ref=df_ref.iloc[:force_max_ref]
 force_ref = np.array(df_ref.Load)
 disp_ref = np.array(df_ref.Displacement)
 df_samp=pd.read_csv('sro2.csv')
-
-
-# In[139]:
-
 
 os.chdir(workdir)
 files=sorted([x for x in os.listdir() if 'Force' in x])
@@ -82,24 +60,14 @@ df_samp=df_samp.set_index('files')
 df_samp['rms']=0
 df_samp.head()
 
-
-# In[140]:
-
-
 for xi in files:
     df_samp['rms'].loc[xi]=rms_force(xi)
 df_samp.to_csv('RSO_DP_2.2_fix_rmse.csv')
-
-
-# In[131]:
-
-
 df_samp.head()
 
 
 # #  Finding Polynomial Equation of the Surface
 
-# In[132]:
 
 
 crss_0=np.asarray(df_samp.crss)
@@ -110,6 +78,7 @@ def modelSurfPoly(x,y,w):
     return surf
 
 # Center and scale to have zero mean and unit variance
+
 X = (crss_0-np.mean(crss_0))/np.std(crss_0)
 Y = (h0-np.mean(h0))/np.std(h0)
 
@@ -130,14 +99,6 @@ ww=w
 
 
 # # Creating 3D Surface 
-
-# In[36]:
-
-
-pwd
-
-
-# In[133]:
 
 
 def scale_crss(x):
@@ -170,14 +131,6 @@ plt.show()
 
 
 # # Particle Swarm Optimization
-
-# In[104]:
-
-
-
-
-
-# In[134]:
 
 
 def modelSurfPoly(x):
@@ -250,23 +203,9 @@ h0_PSO=Swarm_GBest_X[1]*np.std(h0)+np.mean(h0)
 crss_PSO=Swarm_GBest_X[0]*np.std(crss_0)+np.mean(crss_0)
 print('Results for h0 and crss_0 are respectively:',int(h0_PSO) ,'and', int(crss_PSO))
 
-
-# In[116]:
-
-
-1444-56
-
-
-# In[23]:
-
-
 df_samp.describe()
 
-
 # # Latin Hypercube Sampling 
-
-# In[32]:
-
 
 xlimits = np.array([[h0_PSO-56,h0_PSO+56],[crss_PSO-12,crss_PSO+12]])
 sampling = LHS(xlimits=xlimits,criterion='ese')
