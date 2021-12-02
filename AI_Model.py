@@ -1,9 +1,3 @@
-#!/usr/bin/env python
-# coding: utf-8
-
-# In[1]:
-
-
 import pandas as pd
 import numpy as np
 import os
@@ -84,22 +78,3 @@ for x in range(40):
     #plt.ylim(0,0.012)
     axes.savefig("model_" + str(x).zfill(2) + ".png",dpi=800)
     test.to_csv('test.csv',mode='a',index=False,header=False)
-
-
-# In[3]:
-
-
-x=1
-
-
-# In[5]:
-
-
-str(x).zfill(4)
-
-
-# In[ ]:
-
-
-
-
